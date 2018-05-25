@@ -2,7 +2,7 @@
 Type=Application
 TryExec=alacritty
 Exec=alacritty -e byobu
-Icon=/home/epergo/dotfiles/alacritty/alacritty.png
+Icon=/home/epergo/development/workspaces/dotfiles/alacritty/alacritty.png
 Terminal=false
 Categories=System;TerminalEmulator;
 
