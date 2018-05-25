@@ -6,5 +6,3 @@
 	gpgsign = true
 [core]
 	editor = vim
-[init]
-	templatedir = /home/epergo/.git-templates
