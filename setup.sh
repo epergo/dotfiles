@@ -41,7 +41,7 @@ initial() {
     byobu zsh gnome-tweaks arc-theme \
     rustc cargo erlang cmake libfreetype6-dev \
     libfontconfig1-dev xclip numix-icon-theme-circle jq \
-    fonts-firacode
+    font-manager
 
   sudo apt autoremove && sudo apt autoclean
 
