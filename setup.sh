@@ -20,6 +20,7 @@ usage: $0 [OPTIONS]
   --help            Show this message
   --initial         Install all basic stuff
   --alacritty       Install alacritty terminal emulator
+  --keybase         Install keybase
 EOF
 }
 
@@ -87,6 +88,17 @@ alacritty () {
   cp $DOTFILES/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty.yml
 }
 
+keybase () {
+  sudo -v
+
+  print_step "Install Keybase"
+  sudo dpkg -i keybase_amd64.deb
+  curl -O https://prerelease.keybase.io/keybase_amd64.deb
+  sudo apt-get install -f -y
+  rm keybase_amd64.dv
+  run_keybase
+}
+
 for opt in "$@"; do
   case $opt in
     --help)
@@ -97,6 +109,9 @@ for opt in "$@"; do
       exit 0;;
     --alacritty)
       alacritty
+      exit 0;;
+    --keybase)
+      keybase
       exit 0;;
     *)
       "Unknow option, try --help"
