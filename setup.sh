@@ -50,8 +50,7 @@ initial() {
   print_step "Copy manually your ssh key to $HOME/.ssh"
   read -p "Press enter to continue when ready"
 
-  chmod go-r .ssh/id_rsa.pub
-  chmod go-r .ssh/id_rsa
+  chmod 600 .ssh/id_rsa.pub .ssh/id_rsa
 
   ssh-add
 
