@@ -1,0 +1,164 @@
+set nocompatible
+
+syntax on
+filetype plugin indent on
+
+let mapleader=","
+ino jj <esc>
+nnoremap Q <nop>
+
+" Auto installation of Vim Plug
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+
+Plug 'tpope/vim-sensible'            " Set of VIM defaults
+Plug 'mileszs/ack.vim'               " ACK
+Plug 'editorconfig/editorconfig-vim' " Editor config
+Plug 'junegunn/fzf.vim'              " Fuzzy Finder
+Plug 'w0rp/ale'                      " Async static analysis
+
+Plug 'vim-airline/vim-airline'       " Airline
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'scrooloose/nerdtree'           " Nerdtree
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+Plug 'tpope/vim-fugitive'            " Git integration
+Plug 'airblade/vim-gitgutter'        " Show modified files in the gutter
+
+" Styles
+Plug 'flazz/vim-colorschemes'
+Plug 'godlygeek/CSApprox'
+Plug 'ryanoasis/vim-devicons'
+Plug 'ayu-theme/ayu-vim'
+" Plug 'chriskempson/base16-vim'
+
+
+Plug 'elixir-lang/vim-elixir'   " Elixir
+Plug 'vim-ruby/vim-ruby'        " Ruby
+Plug 'rhysd/vim-crystal'        " Crystal
+Plug 'tpope/vim-rails'          " Rails
+Plug 'digitaltoad/vim-pug'      " Pug
+Plug 'elorest/vim-slang'        " Slang
+Plug 'posva/vim-vue'            " Vue
+
+call plug#end()
+
+" Fix styles when using tmux
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let ayucolor="dark"
+
+colorscheme ayu
+
+" Powerline conf
+let g:airline_powerline_fonts = 1
+let g:airline_theme='murmur'
+
+let g:DeleteTrailingWhitespace = 1
+let g:DeleteTrailingWhitespace_Action = 'delete'
+
+" Save shortcuts
+inoremap <C-s> <C-O>:update<cr>
+nnoremap <C-s> :update<cr>
+
+" Quit shortcuts
+inoremap <C-Q>     <esc>:q<cr>
+nnoremap <C-Q>     :q<cr>
+vnoremap <C-Q> <esc>
+
+set termguicolors
+set t_ut=
+set clipboard=unnamed
+set guifont=Fira\ Code\ 11
+set mouse=a                                       " Enable mouse mode
+set number                                        " Show line numbers
+set cursorline                                    " Highlight current linenumber
+set nowrap                                        " No wrap
+set noswapfile                                    " Disable swap file
+set expandtab                                     " Indent with 2 spaces
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set shiftround
+set list listchars=tab:»·,trail:·,nbsp:·          " Display extra whitespace
+set splitbelow                                    " Open new split panes to right and bottom, which feels more natural
+set splitright
+set scrolloff=8                                   "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+set hlsearch                                      " Highlight searches by default
+set ignorecase                                    " Ignore case when searching...
+set smartcase                                     " ...unless we type a capital
+set signcolumn=yes
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" Quicker tab movement
+nnoremap <S-Tab> :tabprevious<RETURN>
+nnoremap <Tab>   :tabnext<RETURN>
+nnoremap <C-t>   :tabnew<RETURN>
+
+" Shortcuts to open NERDTree
+nnoremap ºº :NERDTreeToggle<RETURN>
+nnoremap ºf :NERDTreeFind<RETURN>
+
+" Show hidden by default in NerdTree
+let NERDTreeShowHidden=1
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeHighlightCursorline = 0
+
+" Use FSF as fuzzy finder inside VIM
+if executable('fzf')
+  nnoremap <C-p> :FZF<RETURN>
+  set rtp+=~/.fzf
+endif
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+cnoreabbrev Ack Ack!
+nnoremap <Leader>f :Ack!<Space>
+
+let g:fzf_colors =
+      \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+
+" ----------------------------------------------------------------------------
+" ale
+" ----------------------------------------------------------------------------
+nnoremap <Leader>a :ALEFix<cr>
+let g:ale_set_loclist = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_fixers = {
+      \   'ruby': ['rubocop'],
+      \   'javascript': ['eslint'],
+      \   'vue': ['eslint']
+      \}
+let g:ale_linters = {
+      \   'ruby': ['rubocop', 'reek', 'ruby'],
+      \   'javascript': ['eslint'],
+      \   'vue': ['eslint']
+      \}

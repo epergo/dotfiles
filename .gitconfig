@@ -1,0 +1,10 @@
+[user]
+	email = ej.perezgomez@gmail.com
+	name = Eloy
+	signingkey = FA19B344EAD70E3F
+[commit]
+	gpgsign = true
+[core]
+	editor = vim
+[init]
+	templatedir = /home/epergo/.git-templates
