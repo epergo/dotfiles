@@ -41,7 +41,7 @@ initial() {
     byobu zsh gnome-tweaks arc-theme \
     rustc cargo erlang cmake libfreetype6-dev \
     libfontconfig1-dev xclip numix-icon-theme-circle jq \
-    font-manager
+    font-manager chrome-gnome-shell
 
   sudo apt autoremove && sudo apt autoclean
 
