@@ -41,7 +41,8 @@ initial() {
     byobu zsh gnome-tweaks arc-theme \
     rustc cargo erlang cmake libfreetype6-dev \
     libfontconfig1-dev xclip numix-icon-theme-circle jq \
-    font-manager chrome-gnome-shell
+    font-manager chrome-gnome-shell tree htop build-essential \
+    shutter chromium-browser
 
   sudo apt autoremove && sudo apt autoclean
 
