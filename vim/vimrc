@@ -9,11 +9,11 @@ nnoremap Q <nop>
 
 " Auto installation of Vim Plug
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
 
 call plug#begin()
 
@@ -23,8 +23,7 @@ Plug 'editorconfig/editorconfig-vim' " Editor config
 Plug 'junegunn/fzf.vim'              " Fuzzy Finder
 Plug 'w0rp/ale'                      " Async static analysis
 
-Plug 'vim-airline/vim-airline'       " Airline
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 
 Plug 'scrooloose/nerdtree'           " Nerdtree
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -33,33 +32,30 @@ Plug 'tpope/vim-fugitive'            " Git integration
 Plug 'airblade/vim-gitgutter'        " Show modified files in the gutter
 
 " Styles
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 Plug 'godlygeek/CSApprox'
 Plug 'ryanoasis/vim-devicons'
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
+Plug 'srcery-colors/srcery-vim'
 " Plug 'chriskempson/base16-vim'
 
 
-Plug 'elixir-lang/vim-elixir'   " Elixir
-Plug 'vim-ruby/vim-ruby'        " Ruby
-Plug 'rhysd/vim-crystal'        " Crystal
-Plug 'tpope/vim-rails'          " Rails
-Plug 'digitaltoad/vim-pug'      " Pug
-Plug 'elorest/vim-slang'        " Slang
-Plug 'posva/vim-vue'            " Vue
+" Plug 'elixir-lang/vim-elixir'
+Plug 'vim-ruby/vim-ruby'
+Plug 'rhysd/vim-crystal'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'tpope/vim-rails'
+" Plug 'digitaltoad/vim-pug'
+" Plug 'elorest/vim-slang'
+" Plug 'posva/vim-vue'
 
 call plug#end()
 
 " Fix styles when using tmux
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-let ayucolor="dark"
 
-colorscheme ayu
-
-" Powerline conf
-let g:airline_powerline_fonts = 1
-let g:airline_theme='murmur'
+colorscheme srcery
 
 let g:DeleteTrailingWhitespace = 1
 let g:DeleteTrailingWhitespace_Action = 'delete'
@@ -67,18 +63,20 @@ let g:DeleteTrailingWhitespace_Action = 'delete'
 " Save shortcuts
 inoremap <C-s> <C-O>:update<cr>
 nnoremap <C-s> :update<cr>
+nnoremap <Leader>s :update<cr>
 
 " Quit shortcuts
-inoremap <C-Q>     <esc>:q<cr>
-nnoremap <C-Q>     :q<cr>
+inoremap <C-Q> <esc>:q<cr>
+nnoremap <C-Q> :q<cr>
 vnoremap <C-Q> <esc>
 
 set termguicolors
 set t_ut=
 set clipboard=unnamed
-set guifont=Fira\ Code\ 11
+set guifont=FuraCode\ \Nerd\ Font\ 11
 set mouse=a                                       " Enable mouse mode
 set number                                        " Show line numbers
+set relativenumber                                " Show line numberss
 set cursorline                                    " Highlight current linenumber
 set nowrap                                        " No wrap
 set noswapfile                                    " Disable swap file
@@ -87,7 +85,7 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set shiftround
-set list listchars=tab:»·,trail:·,nbsp:·          " Display extra whitespace
+" set list listchars=tab:»·,trail:·,nbsp:·        " Display extra whitespace
 set splitbelow                                    " Open new split panes to right and bottom, which feels more natural
 set splitright
 set scrolloff=8                                   "Start scrolling when we're 8 lines away from margins
@@ -97,6 +95,8 @@ set hlsearch                                      " Highlight searches by defaul
 set ignorecase                                    " Ignore case when searching...
 set smartcase                                     " ...unless we type a capital
 set signcolumn=yes
+set encoding=UTF-8
+set fillchars+=vert:\| 
 
 " Quicker window movement
 nnoremap <C-j> <C-w>j
@@ -110,8 +110,8 @@ nnoremap <Tab>   :tabnext<RETURN>
 nnoremap <C-t>   :tabnew<RETURN>
 
 " Shortcuts to open NERDTree
-nnoremap ºº :NERDTreeToggle<RETURN>
-nnoremap ºf :NERDTreeFind<RETURN>
+nnoremap <Leader><Leader> :NERDTreeToggle<RETURN>
+nnoremap <Leader>e :NERDTreeFind<RETURN>
 
 " Show hidden by default in NerdTree
 let NERDTreeShowHidden=1
@@ -153,12 +153,19 @@ nnoremap <Leader>a :ALEFix<cr>
 let g:ale_set_loclist = 1
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_fixers = {
-      \   'ruby': ['rubocop'],
-      \   'javascript': ['eslint'],
-      \   'vue': ['eslint']
+      \   'ruby': ['rubocop']
       \}
 let g:ale_linters = {
-      \   'ruby': ['rubocop', 'reek', 'ruby'],
-      \   'javascript': ['eslint'],
-      \   'vue': ['eslint']
+      \   'ruby': ['rubocop', 'reek', 'ruby']
       \}
+
+let g:lightline = {
+      \ 'colorscheme': 'srcery',
+      \ }
+set noshowmode " Hide reduntant vim mode
+
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 
+
+let g:go_fmt_command='goimports'
+
