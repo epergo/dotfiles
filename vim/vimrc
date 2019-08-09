@@ -4,8 +4,6 @@ syntax on
 filetype plugin indent on
 
 let mapleader=","
-ino jj <esc>
-nnoremap Q <nop>
 
 " Auto installation of Vim Plug
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
@@ -19,12 +17,15 @@ call plug#begin()
 
 Plug 'tpope/vim-sensible'            " Set of VIM defaults
 Plug 'mileszs/ack.vim'               " ACK
+Plug 'haishanh/night-owl.vim'
+Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'              " Fuzzy Finder
 Plug 'w0rp/ale'                      " Async static analysis
 
 Plug 'itchyny/lightline.vim'
 
 Plug 'scrooloose/nerdtree'           " Nerdtree
+Plug 'easymotion/vim-easymotion'
 
 Plug 'tpope/vim-fugitive'            " Git integration
 Plug 'airblade/vim-gitgutter'        " Show modified files in the gutter
@@ -32,16 +33,19 @@ Plug 'airblade/vim-gitgutter'        " Show modified files in the gutter
 " Styles
 Plug 'godlygeek/CSApprox'
 Plug 'ryanoasis/vim-devicons'
-Plug 'srcery-colors/srcery-vim'
-" Plug 'flazz/vim-colorschemes'
-" Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'srcery-colors/srcery-vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
 " Plug 'ayu-theme/ayu-vim'
 " Plug 'chriskempson/base16-vim'
 
 
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'tpope/vim-bundler'
 Plug 'vim-ruby/vim-ruby'
-Plug 'rhysd/vim-crystal'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'rhysd/vim-crystal'
+Plug 'fatih/vim-go' " , { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-rails'
 " Plug 'elixir-lang/vim-elixir'
 " Plug 'digitaltoad/vim-pug'
@@ -54,14 +58,18 @@ call plug#end()
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-let g:lightline = {
-      \ 'colorscheme': 'srcery',
-      \ }
+let g:lightline = { 'colorscheme': 'wombat' } " srcery
 
-" Plugins I've tried and like! => [molokai, ayu, PaperColor, srcery]
-colorscheme srcery
+" Plugins I've tried and like! => [molokai, ayu, PaperColor, srcery, night-owl]
+colorscheme night-owl
+
+"" ReMaps
+inoremap jj <esc>
+nnoremap Q <nop>
 
 " Save shortcuts
+nnoremap <Leader>x :x<cr>
+nnoremap <Leader>q :q<cr>
 nnoremap <Leader>s :update<cr>
 nnoremap <C-s> :update<cr>
 
@@ -100,6 +108,9 @@ set signcolumn=yes
 set t_Co=256
 set fillchars+=vert:\|
 
+map <Leader>m <Plug>(easymotion-bd-f)
+nmap <Leader>m <Plug>(easymotion-bd-f)
+
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -112,7 +123,7 @@ nnoremap th :tabprev<CR>
 nnoremap tn :tabnew<CR>
 
 " Shortcuts to open NERDTree
-nnoremap <Leader><Leader> :NERDTreeToggle<RETURN>
+nnoremap <Leader>t :NERDTreeToggle<RETURN>
 nnoremap <Leader>e :NERDTreeFind<RETURN>
 
 " Show hidden by default in NerdTree
@@ -164,19 +175,14 @@ let g:ale_set_loclist = 1
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_fixers = {
       \   'ruby': ['rubocop'],
-      \   'javascript': ['eslint'],
-      \   'vue': ['eslint'],
-      \   'apib': ['drafter']
       \}
 let g:ale_linters = {
-      \   'ruby': ['rubocop', 'reek', 'ruby'],
-      \   'javascript': ['eslint'],
-      \   'vue': ['eslint'],
-      \   'apib': ['drafter']
+      \   'ruby': ['rubocop'],
       \}
 
 let g:ale_sign_error = '>'
 let g:ale_sign_warning = '-'
+let g:ale_ruby_rubocop_executable = 'bundle' 
 
 set noshowmode " Hide reduntant vim mode
 
