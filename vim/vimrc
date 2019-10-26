@@ -145,14 +145,16 @@ let g:gitgutter_sign_modified_removed = '·'
 if executable('fzf')
   nnoremap <C-p> :FZF<RETURN>
   set rtp+=~/.fzf
-endif
 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+  " command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 
 cnoreabbrev Ack Ack!
-nnoremap <Leader>f :Ack!<Space>
+nnoremap <Leader>f :Find<Space>
+
+" Go to definition
+nnoremap <Leader>d <C-]>
 
 let g:fzf_colors =
       \ { 'fg':      ['fg', 'Normal'],
